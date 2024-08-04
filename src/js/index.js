@@ -8,6 +8,9 @@ import '../img/altimeter_needle_hundreds.svg';
 import '../img/vario_needle.svg';
 import '../img/compass_figure.svg';
 import '../img/airplane-icon.svg';
+import '../img/vor.svg';
+import '../img/vordme.svg';
+import '../img/dme.svg';
 import 'leaflet/dist/images/marker-shadow.png';
 import L from 'leaflet';
 import config from '../../config.toml';
@@ -36,7 +39,38 @@ document.addEventListener('DOMContentLoaded', () => {
 		);
 	const layerWeather = L.tileLayer('https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid='+config.OWM_API_KEY);
 	const layerVORs = L.layerGroup().on('add', () => {
-		// TODO Implementare riempimento layer
+		fetch('http://localhost/ajax/dati-vor')
+			.then((response) => response.json())
+			.then((response) => {
+				function decodeFlag(flags) {
+					return {
+						'hasNavSignal': (Boolean)(flags & 1),
+						'hasLocalizer': (Boolean)(flags & 2),
+						'hasGlideSlope': (Boolean)(flags & 4),
+						'hasDme': (Boolean)(flags & 8),
+					};
+				}
+				const vorIcon = L.icon({
+					iconUrl: 'static/img/vor.svg',
+					iconSize: [20, 20],
+				});
+				const dmeIcon = L.icon({
+					iconUrl: 'static/img/dme.svg',
+					iconSize: [20, 20],
+				});
+				const vorDmeIcon = L.icon({
+					iconUrl: 'static/img/vordme.svg',
+					iconSize: [20, 20],
+				});
+				for (const vor of response) {
+					const flags = decodeFlag(vor.Flags);
+					L.marker([vor.Latitude, vor.Longitude], {
+						icon: flags.hasDme ? (!flags.hasNavSignal && !flags.hasLocalizer && !flags.hasGlideSlope ? dmeIcon : vorDmeIcon) : vorIcon,
+						keyboard: false,
+						title: (flags.hasLocalizer ? 'LOC' : (flags.hasNavSignal ? 'VOR' : '') + (flags.hasDme ? 'DME' : '')) + '\n' + vor.Ident + ' ' + vor.fFrequency,
+					}).addTo(layerVORs);
+				}
+			});
 	});
 	const layerNDBs = L.layerGroup().on('add', () => {
 		// TODO Implementare riempimento layer
@@ -78,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			.then((dati) => {
 				aeroplano.setLatLng([dati.LAT, dati.LON]);
 				iconaAeroplano.transform += ' rotate('+dati.HDG+'deg)';
-				map.panTo(aeroplano.getLatLng());
+				map.panInside(aeroplano.getLatLng());
 				speedometerInput.value = Math.trunc(dati.IAS)+'KN', speedometer.setProperty('--speed', dati.IAS);
 				altimeterInput.value = Math.trunc(dati.ALT)+'FT', altimeter.setProperty('--rotation-altitude', dati.ALT);
 				variometerInput.value = Math.trunc(dati.VS)+'FPM', variometer.setProperty('--vertical-speed', dati.VS);
