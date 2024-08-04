@@ -1,0 +1,46 @@
+// Boostrap 5.3.3
+@import '../../node_modules/bootstrap/scss/functions';
+@import '../../node_modules/bootstrap/scss/variables';
+@import '../../node_modules/bootstrap/scss/variables-dark';
+@import '../../node_modules/bootstrap/scss/maps';
+@import '../../node_modules/bootstrap/scss/mixins';
+@import '../../node_modules/bootstrap/scss/root';
+@import '../../node_modules/bootstrap/scss/containers';
+@import '../../node_modules/bootstrap/scss/grid';
+@import '../../node_modules/bootstrap/scss/reboot';
+@import '../../node_modules/bootstrap/scss/type';
+@import '../../node_modules/bootstrap/scss/helpers';
+@import '../../node_modules/bootstrap/scss/utilities';
+@import '../../node_modules/bootstrap/scss/utilities/api'; 
+
+// Application
+@import '_partials/fonts';
+@import '_partials/widgets';
+
+$bg-default: #e9f4f8;
+body {
+	background-color: $bg-default;
+	font-family: 'Montserrat', sans-serif;
+
+	header {
+		.logo {
+			background-image:url('../img/logo.jpeg');
+			background-size:contain;
+			width:100px;
+			height:100px;
+			box-shadow:0 0 8px 8px $bg-default inset;
+		}
+	}
+
+	section.column-wrapper {
+		.center-column {
+			.center-column-inner {
+				border-color: #405556!important;
+
+				.map img.icona-aeroplano {
+					transform-origin:center;
+				}
+			}
+		}
+	}
+}

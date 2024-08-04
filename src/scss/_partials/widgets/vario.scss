@@ -1,0 +1,59 @@
+.variometer.scale {
+	.bar {	
+		&:after {
+			background:black;
+			position:absolute;
+			width:2%;
+			height:1px;
+			left:6px;
+			content:'';
+		}
+
+		@for $i from 0 through 8 {
+			&:nth-child(#{$i + 1} of .bar) {
+				transform: rotate(calc(360deg / 9 * $i));
+			}
+		}
+
+		&:nth-child(-n+8 of .bar):after {
+			width:4%;
+			height:2px;
+		}
+		
+		@for $i from 9 through 27 {
+			&:nth-child(#{$i + 1} of .bar) {
+				transform: rotate(calc(152deg / 19 * ($i - 9) - 72deg));
+			}
+		}
+	}
+
+	.number {
+		width:82%;
+
+		span {
+			font-size:1rem;
+		}
+
+		@for $i from 0 through 8 {
+			&:nth-child(#{$i + 1} of .number) {
+				transform: rotate(calc(360deg / 9 * $i));
+
+				span {
+					transform: rotate(calc(-360deg / 9 * $i));
+				}
+			}
+		}
+	}
+
+	.needle {
+		transition: transform 1s ease-out;
+		transform: rotate(calc(360deg / 45 * var(--vertical-speed) / 100 - 90deg));
+		height:70%;
+	}
+
+	.digital {
+		width:30%;
+		bottom:30%;
+		padding:0 4px;
+	}
+}

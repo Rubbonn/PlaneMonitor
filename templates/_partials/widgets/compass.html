@@ -1,0 +1,19 @@
+{% extends '_partials/widget.html' %}
+
+{% block title %}Compass{% endblock %}
+
+{% block content %}
+<div class="compass scale h-100 w-100 d-flex flex-column justify-content-center align-items-center position-relative border border-dark rounded-circle" style="--heading:0;">
+	<div class="needle position-absolute">
+		<img class="h-100 mw-100" src="{{ url_for('static', filename='img/compass_figure.svg') }}"/>
+	</div>
+	{% for _ in range(72) %}
+	<div class="bar w-100 position-absolute"></div>
+	{% endfor %}
+	{% set cardinalPoints = {0: 'N', 9: 'E', 18: 'S', 27: 'O'} %}
+	{% for _ in range(12) %}
+	<div class="number position-absolute"><span class="d-inline-block">{% if (loop.index0 * 3) is divisibleby 9 %}{{ cardinalPoints[loop.index0 * 3] }}{% else %}{{ loop.index0 * 3 }}{% endif %}</span></div>
+	{% endfor %}
+	<div class="digital text-center position-absolute"><input class="text-center w-100 p-0" type="text" disabled="disabled" value="0"></div>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+.widget-wrapper {
+	.widget-title {
+		font-size:.7rem;
+	}
+
+	.widget-inner {
+		.widget {
+			padding:5px;
+			font-size:.7rem;
+		}
+	}
+}
+
+@import 'widgets/speedGauge';
+@import 'widgets/altimeter';
+@import 'widgets/vario';
+@import 'widgets/compass';

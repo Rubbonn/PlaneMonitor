@@ -1,0 +1,47 @@
+.compass.scale {
+	.needle {
+		transform: rotate(-.5deg);
+	}
+
+	.bar {	
+		&:after {
+			background:black;
+			position:absolute;
+			width:2%;
+			height:1px;
+			left:6px;
+			content:'';
+		}
+
+		@for $i from 0 through 72 {
+			&:nth-child(#{$i + 1} of .bar) {
+				transform: rotate(calc(360deg / 72 * $i - calc(var(--heading) * 1deg)));
+			}
+		}
+
+		&:nth-child(odd of .bar):after {
+			width:4%;
+			height:2px;
+		}
+	}
+
+	.number {
+		width:84%;
+
+		@for $i from 0 through 12 {
+			&:nth-child(#{$i + 1} of .number) {
+				transform: rotate(calc(360deg / 12 * $i + 90deg - calc(var(--heading) * 1deg)));
+
+				span {
+					transform: rotate(calc(-360deg / 12 * $i - 90deg + calc(var(--heading) * 1deg)));
+				}
+			}
+		}
+	}
+
+	.digital {
+		width:30%;
+		bottom:19%;
+		padding:0 4px;
+	}
+}

@@ -1,0 +1,27 @@
+{% extends 'layout/page.html' %}
+
+{% block content %}
+<header class="row">
+	<div class="title-logo-wrapper col p-2">
+		<div class="logo d-inline-block align-middle"></div> <span class="title h1 align-middle">PlaneMonitor</span>
+	</div>
+</header>
+<section class="column-wrapper row mb-2">
+	<div class="left-column col-2 px-2 border-end"><div class="left-column-inner p-2 border rounded-4 d-flex flex-column justify-content-center">
+		{% include '_partials/widgets/speedGauge.html' %}
+		<hr class="my-1"/>
+		{% include '_partials/widgets/altimeter.html' %}
+	</div></div>
+	<div class="center-column col px-2"><div class="center-column-inner border border-2 rounded-4 h-100 overflow-hidden">
+		<div class="map h-100"></div>
+	</div></div>
+	<div class="right-column col-2 px-2 border-start"><div class="right-column-inner p-2 border rounded-4">
+		{% include '_partials/widgets/vario.html' %}
+		<hr class="my-1"/>
+		{% include '_partials/widgets/compass.html' %}
+	</div></div>
+</section>
+<footer class="row p-2 border-top border-2">
+	<div class="col">Footer</div>
+</footer>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends '_partials/widget.html' %}
+
+{% block title %}Altitude{% endblock %}
+
+{% block content %}
+<div class="altimeter scale h-100 w-100 d-flex flex-column justify-content-center align-items-center position-relative border border-dark rounded-circle" style="--rotation-altitude: 0;">
+	{% for _ in range(51) %}
+	<div class="bar w-100 position-absolute"></div>
+	{% endfor %}
+	{% for _ in range(10) %}
+	<div class="number position-absolute"><span class="d-inline-block">{{ loop.index0 }}</span></div>
+	{% endfor %}
+	<div class="needle needle-tenthousand h-100 position-absolute">
+		<img class="h-100 mw-100" src="{{ url_for('static', filename='img/altimeter_needle_tenthousand.svg') }}"/>
+	</div>
+	<div class="needle needle-thousands position-absolute">
+		<img class="h-100 mw-100" src="{{ url_for('static', filename='img/altimeter_needle_thousands.svg') }}"/>
+	</div>
+	<div class="needle needle-hundreds position-absolute">
+		<img class="h-100 mw-100" src="{{ url_for('static', filename='img/altimeter_needle_hundreds.svg') }}"/>
+	</div>
+	<div class="digital text-center position-absolute"><input class="text-center w-100 p-0" type="text" disabled="disabled" value="0FT"></div>
+</div>
+{% endblock %}

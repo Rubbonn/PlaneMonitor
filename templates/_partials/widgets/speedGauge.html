@@ -1,0 +1,18 @@
+{% extends '_partials/widget.html' %}
+
+{% block title %}Indicated Airspeed{% endblock %}
+
+{% block content %}
+<div class="speedometer scale h-100 w-100 d-flex flex-column justify-content-center align-items-center position-relative border border-dark rounded-circle" style="--speed: 0;">
+	<div class="needle position-absolute">
+		<img class="h-100 mw-100" src="{{ url_for('static', filename='img/airspeed_needle.svg') }}"/>
+	</div>
+	{% for _ in range(61) %}
+	<div class="bar w-100 position-absolute"></div>
+	{% endfor %}
+	{% for _ in range(16) %}
+	<div class="number position-absolute"><span class="d-inline-block">{{ loop.index0 * 20 }}</span></div>
+	{% endfor %}
+	<div class="digital text-center position-absolute"><input class="text-center w-100 p-0" type="text" disabled="disabled" value="0KN"></div>
+</div>
+{% endblock %}

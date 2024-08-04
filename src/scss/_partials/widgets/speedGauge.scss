@@ -1,0 +1,49 @@
+.speedometer.scale {	
+	.needle {
+		transform: rotate(calc(340deg / 60 * var(--speed) / 5 - 80deg));
+		transition: transform 1s ease-out;
+		height:90%;
+	}
+
+	.bar {	
+		&:after {
+			background:black;
+			position:absolute;
+			width:2%;
+			height:1px;
+			left:6px;
+			content:'';
+		}
+
+		@for $i from 0 through 60 {
+			&:nth-child(#{$i + 1} of .bar) {
+				transform: rotate(calc(340deg / 60 * $i + 10deg));
+			}
+		}
+
+		&:nth-child(odd of .bar):after {
+			width:4%;
+			height:2px;
+		}
+	}
+
+	.number {
+		width:84%;
+
+		@for $i from 0 through 15 {
+			&:nth-child(#{$i + 1} of .number) {
+				transform: rotate(calc(340deg / 60 * ($i * 4) + 10deg));
+
+				span {
+					transform: rotate(calc(-340deg / 60 * ($i * 4) - 10deg));
+				}
+			}
+		}
+	}
+
+	.digital {
+		width:30%;
+		bottom:30%;
+		padding:0 4px;
+	}
+}
