@@ -164,6 +164,7 @@ cython_debug/
 /.vscode/
 PlaneMonitor.code-workspace
 pyvenv.cfg
+/Lib/
 /Scripts/
 /node_modules/
 config.toml

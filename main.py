@@ -13,23 +13,23 @@ def index():
 
 @app.route('/ajax/dati-volo')
 def datiVolo():
-	return fileDataProvider.get('')
+	return fileDataProvider.get('flight')
 
 @app.route('/ajax/dati-vor')
 def datiVor():
-	return [{'ICAO': 'TOP', 'Frequency': '114.50', 'lat': 44.925400, 'lon': 7.861660}]
+	return fileDataProvider.get('vor')
 
 @app.route('/ajax/dati-ndb')
 def datiNdb():
-	return [{'ICAO': 'TOP', 'Frequency': '114.50', 'lat': 44.925400, 'lon': 7.861660}]
+	return fileDataProvider.get('ndb')
 
 @app.route('/ajax/dati-arpt')
 def datiArpt():
-	return [{'ICAO': 'TOP', 'Frequency': '114.50', 'lat': 44.925400, 'lon': 7.861660}]
+	return fileDataProvider.get('arpt')
 
 @app.route('/ajax/dati-wpt')
 def datiWpt():
-	return [{'ICAO': 'TOP', 'Frequency': '114.50', 'lat': 44.925400, 'lon': 7.861660}]
+	return fileDataProvider.get('wpt')
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0', port=80, debug=True)
