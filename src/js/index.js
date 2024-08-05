@@ -11,6 +11,7 @@ import '../img/airplane-icon.svg';
 import '../img/vor.svg';
 import '../img/vordme.svg';
 import '../img/dme.svg';
+import '../img/ndb.svg';
 import 'leaflet/dist/images/marker-shadow.png';
 import L from 'leaflet';
 import config from '../../config.toml';
@@ -74,7 +75,21 @@ document.addEventListener('DOMContentLoaded', () => {
 			});
 	});
 	const layerNDBs = L.layerGroup().on('add', () => {
-		// TODO Implementare riempimento layer
+		fetch('http://localhost/ajax/dati-ndb')
+			.then((response) => response.json())
+			.then((response) => {
+				const ndbIcon = L.icon({
+					iconUrl: 'static/img/ndb.svg',
+					iconSize: [20, 20],
+				});
+				for (const ndb of response) {
+					L.marker([ndb.Latitude, ndb.Longitude], {
+						icon: ndbIcon,
+						keyboard: false,
+						title: 'NDB\n' + ndb.Ident + ' ' + ndb.fFrequency,
+					}).addTo(layerNDBs);
+				}
+			});
 	});
 	const layerARPTs = L.layerGroup().on('add', () => {
 		// TODO Implementare riempimento layer
@@ -94,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		keyboard: false,
 	}).addTo(map);
 
-	let mapFollow = 'lock'
+	let mapFollow = 'free'
 	for (const radio of document.querySelectorAll('input[name=mapFollow]')) {
 		radio.addEventListener('change', () => {
 			mapFollow = document.querySelector('input[name=mapFollow]:checked').value;
