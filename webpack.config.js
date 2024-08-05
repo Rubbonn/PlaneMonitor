@@ -85,6 +85,10 @@ module.exports = {
 					test: /[\\/]node_modules[\\/]leaflet[\\/]/,
 					name: 'vendor-leaflet',
 				},
+				bootstrapVendor: {
+					test: /[\\/]node_modules[\\/]bootstrap[\\/]/,
+					name: 'vendor-bootstrap',
+				},
 			},
 		},
 	},

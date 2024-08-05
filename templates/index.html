@@ -2,7 +2,12 @@
 
 {% block content %}
 <header class="row">
-	<div class="title-logo-wrapper col p-2">
+	<div class="menu-wrapper col-auto p-2 ps-4 d-flex flex-column justify-content-center" data-bs-toggle="offcanvas" data-bs-target=".offcanvas">
+		<div></div>
+		<div></div>
+		<div></div>
+	</div>
+	<div class="title-logo-wrapper col p-2 text-center">
 		<div class="logo d-inline-block align-middle"></div> <span class="title h1 align-middle">PlaneMonitor</span>
 	</div>
 </header>
@@ -24,4 +29,27 @@
 <footer class="row p-2 border-top border-2">
 	<div class="col">Footer</div>
 </footer>
+<div class="offcanvas offcanvas-start side-menu">
+	<div class="offcanvas-header">
+		<h5 class="offcanvas-title">Opzioni</h5>
+		<button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+	</div>
+	<div class="offcanvas-body">
+		<div class="option locking">
+			<label class="w-100 border-bottom pb-2 mb-2">Mappa</label>
+			<div class="form-check">
+				<input class="form-check-input" type="radio" name="mapFollow" value="lock" checked="checked"/>
+				<label class="form-check-label">Bloccata</label>
+			</div>
+			<div class="form-check">
+				<input class="form-check-input" type="radio" name="mapFollow" value="sync"/>
+				<label class="form-check-label">Sincronizzata</label>
+			</div>
+			<div class="form-check">
+				<input class="form-check-input" type="radio" name="mapFollow" value="free"/>
+				<label class="form-check-label">Libera</label>
+			</div>
+		</div>
+	</div>
+</div>
 {% endblock %}

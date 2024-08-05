@@ -14,6 +14,7 @@ import '../img/dme.svg';
 import 'leaflet/dist/images/marker-shadow.png';
 import L from 'leaflet';
 import config from '../../config.toml';
+import 'bootstrap/js/dist/offcanvas';
 
 document.addEventListener('DOMContentLoaded', () => {
 	const layerPolitico = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -93,6 +94,13 @@ document.addEventListener('DOMContentLoaded', () => {
 		keyboard: false,
 	}).addTo(map);
 
+	let mapFollow = 'lock'
+	for (const radio of document.querySelectorAll('input[name=mapFollow]')) {
+		radio.addEventListener('change', () => {
+			mapFollow = document.querySelector('input[name=mapFollow]:checked').value;
+		});
+	}
+
 	const iconaAeroplano = document.querySelector('img.icona-aeroplano').style;
 	const speedometer = document.querySelector('.speedometer.scale').style;
 	const speedometerInput = document.querySelector('.speedometer.scale input');
@@ -112,7 +120,8 @@ document.addEventListener('DOMContentLoaded', () => {
 			.then((dati) => {
 				aeroplano.setLatLng([dati.LAT, dati.LON]);
 				iconaAeroplano.transform += ' rotate('+dati.HDG+'deg)';
-				map.panInside(aeroplano.getLatLng());
+				if(mapFollow == 'lock') map.panTo(aeroplano.getLatLng());
+				else if(mapFollow == 'sync') map.panInside(aeroplano.getLatLng());
 				speedometerInput.value = Math.trunc(dati.IAS)+'KN', speedometer.setProperty('--speed', dati.IAS);
 				altimeterInput.value = Math.trunc(dati.ALT)+'FT', altimeter.setProperty('--rotation-altitude', dati.ALT);
 				variometerInput.value = Math.trunc(dati.VS)+'FPM', variometer.setProperty('--vertical-speed', dati.VS);
