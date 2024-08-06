@@ -1,17 +1,6 @@
 import '../scss/index.scss';
 import 'leaflet/dist/leaflet.css';
-import '../img/logo.jpeg';
-import '../img/airspeed_needle.svg';
-import '../img/altimeter_needle_tenthousand.svg';
-import '../img/altimeter_needle_thousands.svg';
-import '../img/altimeter_needle_hundreds.svg';
-import '../img/vario_needle.svg';
-import '../img/compass_figure.svg';
-import '../img/airplane-icon.svg';
-import '../img/vor.svg';
-import '../img/vordme.svg';
-import '../img/dme.svg';
-import '../img/ndb.svg';
+require.context('../img/', true);
 import 'leaflet/dist/images/marker-shadow.png';
 import L from 'leaflet';
 import config from '../../config.toml';
@@ -54,15 +43,15 @@ document.addEventListener('DOMContentLoaded', () => {
 				}
 				const vorIcon = L.icon({
 					iconUrl: 'static/img/vor.svg',
-					iconSize: [20, 20],
+					iconSize: [10, 10],
 				});
 				const dmeIcon = L.icon({
 					iconUrl: 'static/img/dme.svg',
-					iconSize: [20, 20],
+					iconSize: [10, 10],
 				});
 				const vorDmeIcon = L.icon({
 					iconUrl: 'static/img/vordme.svg',
-					iconSize: [20, 20],
+					iconSize: [10, 10],
 				});
 				for (const vor of response) {
 					const flags = decodeFlag(vor.Flags);
@@ -73,6 +62,8 @@ document.addEventListener('DOMContentLoaded', () => {
 					}).addTo(layerVORs);
 				}
 			});
+	}).on('remove', () => {
+		layerVORs.clearLayers();
 	});
 	const layerNDBs = L.layerGroup().on('add', () => {
 		fetch('http://localhost/ajax/dati-ndb')
@@ -80,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			.then((response) => {
 				const ndbIcon = L.icon({
 					iconUrl: 'static/img/ndb.svg',
-					iconSize: [20, 20],
+					iconSize: [10, 10],
 				});
 				for (const ndb of response) {
 					L.marker([ndb.Latitude, ndb.Longitude], {
@@ -90,12 +81,58 @@ document.addEventListener('DOMContentLoaded', () => {
 					}).addTo(layerNDBs);
 				}
 			});
+	}).on('remove', () => {
+		layerNDBs.clearLayers();
 	});
 	const layerARPTs = L.layerGroup().on('add', () => {
-		// TODO Implementare riempimento layer
+		fetch('http://localhost/ajax/dati-arpt')
+			.then((response) => response.json())
+			.then((response) => {
+				const arptIcon = L.icon({
+					iconUrl: 'static/img/arpt.svg',
+					iconSize: [10, 10],
+				});
+				for (const arpt of response) {
+					L.marker([arpt.Latitude, arpt.Longitude], {
+						icon: arptIcon,
+						keyboard: false,
+						title: 'ARPT\n' + arpt.Ident,
+					}).addTo(layerARPTs);
+					L.marker([arpt.Latitude, arpt.Longitude], {
+						icon: L.divIcon({
+							html: arpt.Ident,
+							className: 'marker-subtitle',
+						}),
+					}).addTo(layerARPTs);
+				}
+			});
+	}).on('remove', () => {
+		layerARPTs.clearLayers();
 	});
 	const layerWPTs = L.layerGroup().on('add', () => {
-		// TODO Implementare riempimento layer
+		fetch('http://localhost/ajax/dati-wpt')
+			.then((response) => response.json())
+			.then((response) => {
+				const wptIcon = L.icon({
+					iconUrl: 'static/img/wpt.svg',
+					iconSize: [10, 10],
+				});
+				for (const wpt of response) {
+					L.marker([wpt.Latitude, wpt.Longitude], {
+						icon: wptIcon,
+						keyboard: false,
+						title: 'WPT\n' + wpt.Ident,
+					}).addTo(layerWPTs);
+					L.marker([wpt.Latitude, wpt.Longitude], {
+						icon: L.divIcon({
+							html: wpt.Ident,
+							className: 'marker-subtitle',
+						}),
+					}).addTo(layerWPTs);
+				}
+			});
+	}).on('remove', () => {
+		layerWPTs.clearLayers();
 	});
 	const map = L.map(document.querySelector('.map')).setView([45.598966, 8.950105], 9).addLayer(layerPolitico).addControl(
 		L.control.layers({'Mappa politica': layerPolitico, 'Mappa VFR': layerVfr}, {'Meteo': layerWeather, 'VOR': layerVORs, 'NDB': layerNDBs, 'ARPT': layerARPTs, 'WPT': layerWPTs})
@@ -103,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const aeroplano = L.marker([0, 0], {
 		icon: L.icon({
 			iconUrl: 'static/img/airplane-icon.svg',
-			iconSize: [30, 30],
+			iconSize: [25, 25],
 			className: 'icona-aeroplano',
 		}),
 		keyboard: false,
@@ -143,5 +180,5 @@ document.addEventListener('DOMContentLoaded', () => {
 				compassInput.value = Math.trunc(dati.HDG), compass.setProperty('--heading', dati.HDG);
 				wait = false;
 			});
-	}, 500);
+	}, 1000);
 });

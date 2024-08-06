@@ -9362,3 +9362,10 @@ body section.column-wrapper .center-column .center-column-inner {
 body section.column-wrapper .center-column .center-column-inner .map img.icona-aeroplano {
   transform-origin: center;
 }
+body section.column-wrapper .center-column .center-column-inner .map .marker-subtitle {
+  min-width: 100px;
+  top: 8px;
+  left: -45px;
+  text-align: center;
+  min-height: 1rem;
+}

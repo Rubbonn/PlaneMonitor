@@ -52,8 +52,18 @@ body {
 			.center-column-inner {
 				border-color: #405556!important;
 
-				.map img.icona-aeroplano {
-					transform-origin:center;
+				.map {
+					img.icona-aeroplano {
+						transform-origin:center;
+					}
+
+					.marker-subtitle {
+						min-width:100px;
+						top:8px;
+						left:-45px;
+						text-align:center;
+						min-height:1rem;
+					}
 				}
 			}
 		}
