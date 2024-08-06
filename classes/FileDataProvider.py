@@ -36,7 +36,7 @@ class FileDataProvider(AbstractDataProvider):
 						self._output.put(self._ndb)
 						continue
 					case [*_, 'arpt']:
-						self._output.put(self._arpt)
+						self._output.put(self._arpt[:100])
 						continue
 					case [*_, 'wpt']:
 						self._output.put(self._wpt)

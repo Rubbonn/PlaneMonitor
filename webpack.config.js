@@ -91,6 +91,7 @@ module.exports = {
 				},
 			},
 		},
+		runtimeChunk: 'single',
 	},
 	mode: 'development',
 };

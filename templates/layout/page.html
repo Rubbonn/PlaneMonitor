@@ -4,6 +4,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>{% block title %}PlaneMonitor{% endblock %}</title>
 		<link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/logo.jpeg') }}"/>
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/vendor-bootstrap.css') }}"/>
 		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/vendor-leaflet.css') }}"/>
 		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}"/>
 	</head>
@@ -12,6 +13,7 @@
 			{% block content %}
 			{% endblock %}
 		</div>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/runtime.js') }}" defer="defer"></script>
 		<script type="text/javascript" src="{{ url_for('static', filename='js/vendor-bootstrap.js') }}" defer="defer"></script>
 		<script type="text/javascript" src="{{ url_for('static', filename='js/vendor-leaflet.js') }}" defer="defer"></script>
 		<script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}" defer="defer"></script>

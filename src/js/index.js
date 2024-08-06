@@ -1,3 +1,4 @@
+import 'bootstrap/scss/bootstrap.scss';
 import '../scss/index.scss';
 import 'leaflet/dist/leaflet.css';
 require.context('../img/', true);
@@ -43,15 +44,15 @@ document.addEventListener('DOMContentLoaded', () => {
 				}
 				const vorIcon = L.icon({
 					iconUrl: 'static/img/vor.svg',
-					iconSize: [10, 10],
+					iconSize: [15, 15],
 				});
 				const dmeIcon = L.icon({
 					iconUrl: 'static/img/dme.svg',
-					iconSize: [10, 10],
+					iconSize: [15, 15],
 				});
 				const vorDmeIcon = L.icon({
 					iconUrl: 'static/img/vordme.svg',
-					iconSize: [10, 10],
+					iconSize: [15, 15],
 				});
 				for (const vor of response) {
 					const flags = decodeFlag(vor.Flags);
@@ -71,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			.then((response) => {
 				const ndbIcon = L.icon({
 					iconUrl: 'static/img/ndb.svg',
-					iconSize: [10, 10],
+					iconSize: [15, 15],
 				});
 				for (const ndb of response) {
 					L.marker([ndb.Latitude, ndb.Longitude], {
@@ -90,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			.then((response) => {
 				const arptIcon = L.icon({
 					iconUrl: 'static/img/arpt.svg',
-					iconSize: [10, 10],
+					iconSize: [15, 15],
 				});
 				for (const arpt of response) {
 					L.marker([arpt.Latitude, arpt.Longitude], {
@@ -134,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	}).on('remove', () => {
 		layerWPTs.clearLayers();
 	});
-	const map = L.map(document.querySelector('.map')).setView([45.598966, 8.950105], 9).addLayer(layerPolitico).addControl(
+	const map = L.map(document.querySelector('.map'), {preferCanvas:true,center:[45.598966, 8.950105],zoom:9,layers:[layerPolitico],}).addControl(
 		L.control.layers({'Mappa politica': layerPolitico, 'Mappa VFR': layerVfr}, {'Meteo': layerWeather, 'VOR': layerVORs, 'NDB': layerNDBs, 'ARPT': layerARPTs, 'WPT': layerWPTs})
 	);
 	const aeroplano = L.marker([0, 0], {
