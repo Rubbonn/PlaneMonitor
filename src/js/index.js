@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		keyboard: false,
 	}).addTo(map);
 
-	let mapFollow = 'free'
+	let mapFollow = 'sync'
 	for (const radio of document.querySelectorAll('input[name=mapFollow]')) {
 		radio.addEventListener('change', () => {
 			mapFollow = document.querySelector('input[name=mapFollow]:checked').value;
@@ -155,14 +155,16 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	const iconaAeroplano = document.querySelector('img.icona-aeroplano').style;
-	const speedometer = document.querySelector('.speedometer.scale').style;
-	const speedometerInput = document.querySelector('.speedometer.scale input');
-	const altimeter = document.querySelector('.altimeter.scale').style;
-	const altimeterInput = document.querySelector('.altimeter.scale input');
-	const variometer = document.querySelector('.variometer.scale').style;
-	const variometerInput = document.querySelector('.variometer.scale input');
-	const compass = document.querySelector('.compass.scale').style;
-	const compassInput = document.querySelector('.compass.scale input');
+	const speedometerWidget = document.querySelector('.speedometer.scale').style;
+	const speedometerWidgetInput = document.querySelector('.speedometer.scale input');
+	const altimeterWidget = document.querySelector('.altimeter.scale').style;
+	const altimeterWidgetInput = document.querySelector('.altimeter.scale input');
+	const variometerWidget = document.querySelector('.variometer.scale').style;
+	const variometerWidgetInput = document.querySelector('.variometer.scale input');
+	const compassWidget = document.querySelector('.compass.scale').style;
+	const compassWidgetInput = document.querySelector('.compass.scale input');
+	const windWidget = document.querySelector('.wind.scale').style;
+	const windWidgetInput = document.querySelector('.wind.scale input');
 
 	let wait = false;
 	setInterval(() => {
@@ -174,12 +176,13 @@ document.addEventListener('DOMContentLoaded', () => {
 				aeroplano.setLatLng([dati.LAT, dati.LON]);
 				iconaAeroplano.transform += ' rotate('+dati.HDG+'deg)';
 				if(mapFollow == 'lock') map.panTo(aeroplano.getLatLng());
-				else if(mapFollow == 'sync') map.panInside(aeroplano.getLatLng());
-				speedometerInput.value = Math.trunc(dati.IAS)+'KN', speedometer.setProperty('--speed', dati.IAS);
-				altimeterInput.value = Math.trunc(dati.ALT)+'FT', altimeter.setProperty('--rotation-altitude', dati.ALT);
-				variometerInput.value = Math.trunc(dati.VS)+'FPM', variometer.setProperty('--vertical-speed', dati.VS);
-				compassInput.value = Math.trunc(dati.HDG), compass.setProperty('--heading', dati.HDG);
+				else if(mapFollow == 'sync') map.panInside(aeroplano.getLatLng(), {padding:[100, 100],});
+				speedometerWidgetInput.value = Math.trunc(dati.IAS)+'KN', speedometerWidget.setProperty('--speed', dati.IAS);
+				altimeterWidgetInput.value = Math.trunc(dati.ALT)+'FT', altimeterWidget.setProperty('--rotation-altitude', dati.ALT);
+				variometerWidgetInput.value = Math.trunc(dati.VS)+'FPM', variometerWidget.setProperty('--vertical-speed', dati.VS);
+				compassWidgetInput.value = Math.trunc(dati.HDG), compassWidget.setProperty('--heading', dati.HDG);
+				windWidgetInput.value = Math.round(dati['Wind Velocity'])+'KN', windWidget.setProperty('--wind-direction', dati['Wind Direction']);
 				wait = false;
 			});
-	}, 1000);
+	}, 500);
 });

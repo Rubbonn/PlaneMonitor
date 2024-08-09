@@ -1,0 +1,16 @@
+{% extends '_partials/widget.html' %}
+
+{% block title %}Wind{% endblock %}
+
+{% block content %}
+<div class="wind scale h-100 w-100 d-flex flex-column justify-content-center align-items-center position-relative border border-dark rounded-circle" style="--wind-direction: 0;">
+	<div class="needle position-absolute">
+		<img class="h-100 mw-100" src="{{ url_for('static', filename='img/wind_needle.svg') }}"/>
+	</div>
+	{% set cardinalPoints = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'] %}
+	{% for _ in range(8) %}
+	<div class="number position-absolute"><span class="d-inline-block">{{ cardinalPoints[loop.index0] }}</span></div>
+	{% endfor %}
+	<div class="digital text-center position-absolute"><input class="text-center w-100 p-0" type="text" disabled="disabled" value="0KN"></div>
+</div>
+{% endblock %}

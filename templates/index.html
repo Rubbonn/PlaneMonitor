@@ -27,7 +27,26 @@
 	</div></div>
 </section>
 <footer class="row p-2 border-top border-2">
-	<div class="col">Footer</div>
+	<div class="col-auto border-end">
+		<div class="option locking">
+			<label class="w-100 border-bottom pb-2 mb-2">Mappa</label>
+			<div class="form-check">
+				<input class="form-check-input" type="radio" name="mapFollow" value="free"/>
+				<label class="form-check-label">Libera</label>
+			</div>
+			<div class="form-check">
+				<input class="form-check-input" type="radio" name="mapFollow" value="sync" checked="checked"/>
+				<label class="form-check-label">Sincronizzata</label>
+			</div>
+			<div class="form-check">
+				<input class="form-check-input" type="radio" name="mapFollow" value="lock"/>
+				<label class="form-check-label">Bloccata</label>
+			</div>
+		</div>
+	</div>
+	<div class="col-1">
+		{% include '_partials/widgets/wind.html' %}
+	</div>
 </footer>
 <div class="offcanvas offcanvas-start side-menu">
 	<div class="offcanvas-header">
@@ -38,11 +57,11 @@
 		<div class="option locking">
 			<label class="w-100 border-bottom pb-2 mb-2">Mappa</label>
 			<div class="form-check">
-				<input class="form-check-input" type="radio" name="mapFollow" value="free" checked="checked"/>
+				<input class="form-check-input" type="radio" name="mapFollow" value="free"/>
 				<label class="form-check-label">Libera</label>
 			</div>
 			<div class="form-check">
-				<input class="form-check-input" type="radio" name="mapFollow" value="sync"/>
+				<input class="form-check-input" type="radio" name="mapFollow" value="sync" checked="checked"/>
 				<label class="form-check-label">Sincronizzata</label>
 			</div>
 			<div class="form-check">

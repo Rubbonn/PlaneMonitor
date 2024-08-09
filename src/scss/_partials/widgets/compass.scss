@@ -4,15 +4,6 @@
 	}
 
 	.bar {	
-		&:after {
-			background:black;
-			position:absolute;
-			width:2%;
-			height:1px;
-			left:6px;
-			content:'';
-		}
-
 		@for $i from 0 through 72 {
 			&:nth-child(#{$i + 1} of .bar) {
 				transform: rotate(calc(360deg / 72 * $i - calc(var(--heading) * 1deg)));
@@ -40,8 +31,6 @@
 	}
 
 	.digital {
-		width:30%;
-		bottom:19%;
-		padding:0 4px;
+		bottom:19%!important;
 	}
 }

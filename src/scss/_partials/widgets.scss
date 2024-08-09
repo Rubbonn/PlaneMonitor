@@ -3,10 +3,29 @@
 		font-size:.7rem;
 	}
 
-	.widget-inner {
-		.widget {
-			padding:5px;
-			font-size:.7rem;
+	.widget-inner .widget {
+		padding:5px;
+		font-size:.7rem;
+
+		.scale {
+			.needle {
+				transition: transform 1s ease-out;
+			}
+
+			.bar::after {
+				background:black;
+				position:absolute;
+				width:2%;
+				height:1px;
+				left:6px;
+				content:'';
+			}
+
+			.digital {
+				width:30%;
+				bottom:30%;
+				padding:0 4px;
+			}
 		}
 	}
 }
@@ -15,3 +34,4 @@
 @import 'widgets/altimeter';
 @import 'widgets/vario';
 @import 'widgets/compass';
+@import 'widgets/wind';

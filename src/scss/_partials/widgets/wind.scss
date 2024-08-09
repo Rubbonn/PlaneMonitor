@@ -1,0 +1,25 @@
+.wind.scale {
+	.needle {
+		transform: rotate(calc(var(--wind-direction) * 1deg));
+		height:65%;
+	}
+
+	.number {
+		width:90%;
+
+		@for $i from 0 through 7 {
+			&:nth-child(#{$i + 1} of .number) {
+				transform: rotate(calc(360deg / 8 * $i + 90deg));
+
+				span {
+					transform: rotate(calc(-360deg / 8 * $i - 90deg));
+				}
+			}
+		}
+	}
+
+	.digital {
+		width:35%!important;
+		bottom:15%!important;
+	}
+}

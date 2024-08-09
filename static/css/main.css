@@ -15,19 +15,26 @@
   padding: 5px;
   font-size: 0.7rem;
 }
-
-.speedometer.scale .needle {
-  transform: rotate(calc(5.6666666667deg * var(--speed) / 5 - 80deg));
+.widget-wrapper .widget-inner .widget .scale .needle {
   transition: transform 1s ease-out;
-  height: 90%;
 }
-.speedometer.scale .bar:after {
+.widget-wrapper .widget-inner .widget .scale .bar::after {
   background: black;
   position: absolute;
   width: 2%;
   height: 1px;
   left: 6px;
   content: "";
+}
+.widget-wrapper .widget-inner .widget .scale .digital {
+  width: 30%;
+  bottom: 30%;
+  padding: 0 4px;
+}
+
+.speedometer.scale .needle {
+  transform: rotate(calc(5.6666666667deg * var(--speed) / 5 - 80deg));
+  height: 90%;
 }
 .speedometer.scale .bar:nth-child(1 of .bar) {
   transform: rotate(10deg);
@@ -315,19 +322,17 @@
 .speedometer.scale .number:nth-child(16 of .number) span {
   transform: rotate(-350deg);
 }
-.speedometer.scale .digital {
-  width: 30%;
-  bottom: 30%;
-  padding: 0 4px;
-}
 
-.altimeter.scale .bar:after {
-  background: black;
-  position: absolute;
-  width: 2%;
-  height: 1px;
-  left: 6px;
-  content: "";
+.altimeter.scale .needle.needle-tenthousand {
+  transform: rotate(calc(36deg * var(--rotation-altitude) / 10000));
+}
+.altimeter.scale .needle.needle-thousands {
+  transform: rotate(calc(36deg * var(--rotation-altitude) / 1000));
+  height: 50%;
+}
+.altimeter.scale .needle.needle-hundreds {
+  transform: rotate(calc(36deg * var(--rotation-altitude) / 100));
+  height: 95%;
 }
 .altimeter.scale .bar:nth-child(1 of .bar) {
   transform: rotate(90deg);
@@ -552,33 +557,10 @@
 .altimeter.scale .number:nth-child(10 of .number) span {
   transform: rotate(-414deg);
 }
-.altimeter.scale .needle {
-  transition: transform 1s ease-out;
-}
-.altimeter.scale .needle.needle-tenthousand {
-  transform: rotate(calc(36deg * var(--rotation-altitude) / 10000));
-}
-.altimeter.scale .needle.needle-thousands {
-  transform: rotate(calc(36deg * var(--rotation-altitude) / 1000));
-  height: 50%;
-}
-.altimeter.scale .needle.needle-hundreds {
-  transform: rotate(calc(36deg * var(--rotation-altitude) / 100));
-  height: 95%;
-}
-.altimeter.scale .digital {
-  width: 30%;
-  bottom: 30%;
-  padding: 0 4px;
-}
 
-.variometer.scale .bar:after {
-  background: black;
-  position: absolute;
-  width: 2%;
-  height: 1px;
-  left: 6px;
-  content: "";
+.variometer.scale .needle {
+  transform: rotate(calc(8deg * var(--vertical-speed) / 100 - 90deg));
+  height: 70%;
 }
 .variometer.scale .bar:nth-child(1 of .bar) {
   transform: rotate(0deg);
@@ -728,27 +710,9 @@
 .variometer.scale .number:nth-child(9 of .number) span {
   transform: rotate(-320deg);
 }
-.variometer.scale .needle {
-  transition: transform 1s ease-out;
-  transform: rotate(calc(8deg * var(--vertical-speed) / 100 - 90deg));
-  height: 70%;
-}
-.variometer.scale .digital {
-  width: 30%;
-  bottom: 30%;
-  padding: 0 4px;
-}
 
 .compass.scale .needle {
   transform: rotate(-0.5deg);
-}
-.compass.scale .bar:after {
-  background: black;
-  position: absolute;
-  width: 2%;
-  height: 1px;
-  left: 6px;
-  content: "";
 }
 .compass.scale .bar:nth-child(1 of .bar) {
   transform: rotate(calc(0deg - var(--heading) * 1deg));
@@ -1055,9 +1019,67 @@
   transform: rotate(calc(-450deg + var(--heading) * 1deg));
 }
 .compass.scale .digital {
-  width: 30%;
-  bottom: 19%;
-  padding: 0 4px;
+  bottom: 19% !important;
+}
+
+.wind.scale .needle {
+  transform: rotate(calc(var(--wind-direction) * 1deg));
+  height: 65%;
+}
+.wind.scale .number {
+  width: 90%;
+}
+.wind.scale .number:nth-child(1 of .number) {
+  transform: rotate(90deg);
+}
+.wind.scale .number:nth-child(1 of .number) span {
+  transform: rotate(-90deg);
+}
+.wind.scale .number:nth-child(2 of .number) {
+  transform: rotate(135deg);
+}
+.wind.scale .number:nth-child(2 of .number) span {
+  transform: rotate(-135deg);
+}
+.wind.scale .number:nth-child(3 of .number) {
+  transform: rotate(180deg);
+}
+.wind.scale .number:nth-child(3 of .number) span {
+  transform: rotate(-180deg);
+}
+.wind.scale .number:nth-child(4 of .number) {
+  transform: rotate(225deg);
+}
+.wind.scale .number:nth-child(4 of .number) span {
+  transform: rotate(-225deg);
+}
+.wind.scale .number:nth-child(5 of .number) {
+  transform: rotate(270deg);
+}
+.wind.scale .number:nth-child(5 of .number) span {
+  transform: rotate(-270deg);
+}
+.wind.scale .number:nth-child(6 of .number) {
+  transform: rotate(315deg);
+}
+.wind.scale .number:nth-child(6 of .number) span {
+  transform: rotate(-315deg);
+}
+.wind.scale .number:nth-child(7 of .number) {
+  transform: rotate(360deg);
+}
+.wind.scale .number:nth-child(7 of .number) span {
+  transform: rotate(-360deg);
+}
+.wind.scale .number:nth-child(8 of .number) {
+  transform: rotate(405deg);
+}
+.wind.scale .number:nth-child(8 of .number) span {
+  transform: rotate(-405deg);
+}
+.wind.scale .digital {
+  width: 35% !important;
+  bottom: 15% !important;
 }
 
 body {
