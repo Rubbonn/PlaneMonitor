@@ -1,15 +1,22 @@
 from flask import Flask, render_template
 from classes.FileDataProvider import FileDataProvider
+import os.path
 import tomllib
 
 app: Flask = Flask(__name__)
-app.config.from_file('config.toml', load=tomllib.load, text=False)
+
+defaultConfig: dict = {'OWM_API_KEY':''}
+if os.path.exists('config.toml') and os.path.isfile('config.toml'):
+	app.config.from_file('config.toml', load=tomllib.load, text=False)
+else:
+	print('File di configurazione non trovato, verranno usati i valori di default')
+	app.config.from_mapping(defaultConfig)
 fileDataProvider: FileDataProvider = FileDataProvider('dati.csv')
 fileDataProvider.start()
 
 @app.route('/')
 def index():
-	return render_template('index.html')
+	return render_template('index.html', appConfig={key:value for key,value in app.config.items() if key in defaultConfig.keys()})
 
 @app.route('/ajax/dati-volo')
 def datiVolo():

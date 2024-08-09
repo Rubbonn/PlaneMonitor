@@ -1,5 +1,4 @@
 const path = require('path');
-const toml = require('toml');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
@@ -54,13 +53,6 @@ module.exports = {
 					outputPath: 'fonts',
 					publicPath: 'fonts/',
 					filename: '[name][ext]',
-				},
-			},
-			{
-				test: /\.toml$/i,
-				type: 'json',
-				parser: {
-					parse: toml.parse,
 				},
 			},
 		],

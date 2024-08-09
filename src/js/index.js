@@ -4,7 +4,6 @@ import 'leaflet/dist/leaflet.css';
 require.context('../img/', true);
 import 'leaflet/dist/images/marker-shadow.png';
 import L from 'leaflet';
-import config from '../../config.toml';
 import 'bootstrap/js/dist/offcanvas';
 
 document.addEventListener('DOMContentLoaded', () => {
