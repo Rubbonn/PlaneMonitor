@@ -44,8 +44,18 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-1">
+	<div class="col-1 border-end">
 		{% include '_partials/widgets/wind.html' %}
+	</div>
+	<div class="col-1 border-end">
+		<p>TAS: <span id="tas-output">0</span>KN</p>
+		<p>GS: <span id="gs-output">0</span>KN</p>
+		<p>OAT: <span id="oat-output">0</span>C°</p>
+	</div>
+	<div class="col-4 d-flex flex-column route-info">
+		<p class="mb-1"><span id="arpt-dep">Nessuna partenza</span>: <span id="arpt-dep-metar">No metar</span></p>
+		<p class="mb-1 flex-grow-1"><img src="{{ url_for('static', filename='img/arrow-down.svg') }}"/></p>
+		<p class="mb-1"><span id="arpt-dst">Nessun arrivo</span>: <span id="arpt-dst-metar">No metar</span></p>
 	</div>
 </footer>
 <div class="offcanvas offcanvas-start side-menu">

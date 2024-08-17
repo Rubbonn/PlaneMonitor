@@ -1116,3 +1116,7 @@ body section.column-wrapper .center-column .center-column-inner .map .marker-sub
   text-align: center;
   min-height: 1rem;
 }
+body footer .route-info img {
+  height: 100%;
+  max-width: 35px;
+}

@@ -36,7 +36,7 @@ class FileDataProvider(AbstractDataProvider):
 						self._output.put(self._ndb)
 						continue
 					case [*_, 'arpt']:
-						self._output.put(self._arpt[:100])
+						self._output.put(self._arpt)
 						continue
 					case [*_, 'wpt']:
 						self._output.put(self._wpt)
@@ -47,4 +47,6 @@ class FileDataProvider(AbstractDataProvider):
 				riga['LON'] = degrees(riga['LON'])
 				riga['HDG'] = degrees(riga['HDG'])
 				riga['VS'] *= 60
+				riga['DEP'] = 'LIMC'
+				riga['DST'] = 'LIML'
 				self._output.put(riga)

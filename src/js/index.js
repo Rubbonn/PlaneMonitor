@@ -134,6 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	}).on('remove', () => {
 		layerWPTs.clearLayers();
 	});
+	// TODO Sistema per aggiornare periodicamente i marker dei vari layer man mano che entrano in range
 	const map = L.map(document.querySelector('.map'), {preferCanvas:true,center:[45.598966, 8.950105],zoom:9,layers:[layerPolitico],}).addControl(
 		L.control.layers({'Mappa politica': layerPolitico, 'Mappa VFR': layerVfr}, {'Meteo': layerWeather, 'VOR': layerVORs, 'NDB': layerNDBs, 'ARPT': layerARPTs, 'WPT': layerWPTs})
 	);
@@ -164,6 +165,25 @@ document.addEventListener('DOMContentLoaded', () => {
 	const compassWidgetInput = document.querySelector('.compass.scale input');
 	const windWidget = document.querySelector('.wind.scale').style;
 	const windWidgetInput = document.querySelector('.wind.scale input');
+	const tasOutput = document.getElementById('tas-output');
+	const gsOutput = document.getElementById('gs-output');
+	const oatOutput = document.getElementById('oat-output');
+	const depOutput = document.getElementById('arpt-dep');
+	const dstOutput = document.getElementById('arpt-dst');
+	for (const output of [depOutput, dstOutput]) output.addEventListener('change', (e) => {
+		let updateMetarInterval;
+		clearInterval(updateMetarInterval);
+		function updateMetar() {
+			fetch('https://metar.vatsim.net/'+e.target.textContent+'?format=json')
+				.then((response) => response.json())
+				.then((response) => {
+					if(response.length == 0) return;
+					document.getElementById(e.target.id+'-metar').textContent = response[0].metar;
+				});
+		};
+		updateMetar();
+		updateMetarInterval = setInterval(updateMetar, 1800000);
+	});
 
 	let wait = false;
 	setInterval(() => {
@@ -176,11 +196,16 @@ document.addEventListener('DOMContentLoaded', () => {
 				iconaAeroplano.transform += ' rotate('+dati.HDG+'deg)';
 				if(mapFollow == 'lock') map.panTo(aeroplano.getLatLng());
 				else if(mapFollow == 'sync') map.panInside(aeroplano.getLatLng(), {padding:[100, 100],});
-				speedometerWidgetInput.value = Math.trunc(dati.IAS)+'KN', speedometerWidget.setProperty('--speed', dati.IAS);
-				altimeterWidgetInput.value = Math.trunc(dati.ALT)+'FT', altimeterWidget.setProperty('--rotation-altitude', dati.ALT);
-				variometerWidgetInput.value = Math.trunc(dati.VS)+'FPM', variometerWidget.setProperty('--vertical-speed', dati.VS);
-				compassWidgetInput.value = Math.trunc(dati.HDG), compassWidget.setProperty('--heading', dati.HDG);
+				speedometerWidgetInput.value = Math.round(dati.IAS)+'KN', speedometerWidget.setProperty('--speed', dati.IAS);
+				altimeterWidgetInput.value = Math.round(dati.ALT)+'FT', altimeterWidget.setProperty('--rotation-altitude', dati.ALT);
+				variometerWidgetInput.value = Math.round(dati.VS)+'FPM', variometerWidget.setProperty('--vertical-speed', dati.VS);
+				compassWidgetInput.value = Math.round(dati.HDG), compassWidget.setProperty('--heading', dati.HDG);
 				windWidgetInput.value = Math.round(dati['Wind Velocity'])+'KN', windWidget.setProperty('--wind-direction', dati['Wind Direction']);
+				tasOutput.textContent = Math.round(dati.TAS);
+				gsOutput.textContent = Math.round(dati.GS);
+				oatOutput.textContent = Math.round(dati.Temp);
+				if(depOutput.textContent != dati.DEP) depOutput.textContent = dati.DEP, depOutput.dispatchEvent(new Event('change'));
+				if(dstOutput.textContent != dati.DST) dstOutput.textContent = dati.DST, dstOutput.dispatchEvent(new Event('change'));
 				wait = false;
 			});
 	}, 500);
