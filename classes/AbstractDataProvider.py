@@ -19,5 +19,5 @@ class AbstractDataProvider(Thread):
 			return self._output.get()
 	
 	def stop(self) -> None:
-		self._input.put(None)
+		self._input.put((None, 0))
 		self.join()

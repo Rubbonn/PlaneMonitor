@@ -158,6 +158,9 @@ document.addEventListener('DOMContentLoaded', () => {
 		}),
 		keyboard: false,
 	}).addTo(map);
+	const tracciato = L.polyline([], {
+		interactive: false,
+	}).addTo(map);
 
 	let mapFollow = 'sync'
 	for (const radio of document.querySelectorAll('input[name=mapFollow]')) {
@@ -182,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const oatOutput = document.getElementById('oat-output');
 	const depOutput = document.getElementById('arpt-dep');
 	const dstOutput = document.getElementById('arpt-dst');
-	
+
 	for (const output of [depOutput, dstOutput]) output.addEventListener('change', (e) => {
 		let updateMetarInterval;
 		clearInterval(updateMetarInterval);
@@ -228,6 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			.then((response) => response.json())
 			.then((dati) => {
 				aeroplano.setLatLng([dati.volo.LAT, dati.volo.LON]);
+				tracciato.addLatLng([dati.volo.LAT, dati.volo.LON]);
 				iconaAeroplano.transform += ' rotate('+dati.volo.HDG+'deg)';
 				if(mapFollow == 'lock') map.panTo(aeroplano.getLatLng());
 				else if(mapFollow == 'sync') map.panInside(aeroplano.getLatLng(), {padding:[100, 100],});
@@ -263,5 +267,5 @@ document.addEventListener('DOMContentLoaded', () => {
 				}
 				wait = false;
 			});
-	}, 500);
+	}, 1000);
 });

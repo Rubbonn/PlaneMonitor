@@ -4,6 +4,7 @@ import os.path
 import tomllib
 
 app: Flask = Flask(__name__)
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 86400
 
 defaultConfig: dict = {'OWM_API_KEY':''}
 if os.path.exists('config.toml') and os.path.isfile('config.toml'):
