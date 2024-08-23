@@ -12,6 +12,7 @@ class FileDataProvider(AbstractDataProvider):
 		if not exists(file) or not isfile(file):
 			raise Exception('Il file non esiste o non hai i permessi per leggerlo')
 		self._file = file
+		self._rows = []
 	
 	def run(self):
 		with open('ARPT.txt', 'r') as file:
@@ -24,24 +25,7 @@ class FileDataProvider(AbstractDataProvider):
 			self._wpt = load(file)
 		with open(self._file, 'r') as file:
 			file: DictReader = DictReader(file, delimiter='\t', quotechar='"')
-			while True:
-				comando = self._input.get()
-				if comando is None:
-					break
-				match comando.split('_'):
-					case [*_, 'vor']:
-						self._output.put(self._vor)
-						continue
-					case [*_, 'ndb']:
-						self._output.put(self._ndb)
-						continue
-					case [*_, 'arpt']:
-						self._output.put(self._arpt)
-						continue
-					case [*_, 'wpt']:
-						self._output.put(self._wpt)
-						continue
-				riga: dict = next(file)
+			for riga in file:
 				riga = {chiave: float(valore) for chiave, valore in riga.items()}
 				riga['LAT'] = degrees(riga['LAT'])
 				riga['LON'] = degrees(riga['LON'])
@@ -49,4 +33,23 @@ class FileDataProvider(AbstractDataProvider):
 				riga['VS'] *= 60
 				riga['DEP'] = 'LIMC'
 				riga['DST'] = 'LIML'
-				self._output.put(riga)
+				self._rows.append(riga)
+		datiVolo = iter(self._rows)
+		while True:
+			comando, offset = self._input.get()
+			if comando is None:
+				break
+			match comando:
+				case 'vor':
+					self._output.put(self._vor[offset:])
+					continue
+				case 'ndb':
+					self._output.put(self._ndb[offset:])
+					continue
+				case 'arpt':
+					self._output.put(self._arpt[offset:])
+					continue
+				case 'wpt':
+					self._output.put(self._wpt[offset:])
+					continue
+			self._output.put(next(datiVolo))

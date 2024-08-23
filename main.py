@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from classes.FileDataProvider import FileDataProvider
 import os.path
 import tomllib
@@ -18,25 +18,14 @@ fileDataProvider.start()
 def index():
 	return render_template('index.html', appConfig={key:value for key,value in app.config.items() if key in defaultConfig.keys()})
 
-@app.route('/ajax/dati-volo')
+@app.route('/ajax/dati')
 def datiVolo():
-	return fileDataProvider.get('flight')
-
-@app.route('/ajax/dati-vor')
-def datiVor():
-	return fileDataProvider.get('vor')
-
-@app.route('/ajax/dati-ndb')
-def datiNdb():
-	return fileDataProvider.get('ndb')
-
-@app.route('/ajax/dati-arpt')
-def datiArpt():
-	return fileDataProvider.get('arpt')
-
-@app.route('/ajax/dati-wpt')
-def datiWpt():
-	return fileDataProvider.get('wpt')
+	datiRichiesti = request.args.get('dati', '').split(',')
+	risposta = {}
+	for dato in datiRichiesti:
+		if dato not in ['volo', 'vor', 'ndb', 'arpt', 'wpt']: continue
+		risposta[dato] = fileDataProvider.get((dato, int(request.args.get(f'{dato}Offset', 0))))
+	return risposta
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0', port=80, debug=True)

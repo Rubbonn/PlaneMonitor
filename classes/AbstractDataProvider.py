@@ -15,7 +15,7 @@ class AbstractDataProvider(Thread):
 		if type is None:
 			raise Exception('Manca il parametro type')
 		with self._readLock:
-			self._input.put(f'get_{type}')
+			self._input.put(type)
 			return self._output.get()
 	
 	def stop(self) -> None:
